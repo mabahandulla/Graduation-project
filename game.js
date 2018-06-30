@@ -8,15 +8,14 @@ class Vector{
 
   plus(vector){
     try{
-   if(!vector instanceof Vector){
-     throw 'Можно прибавлять к вектору только вектор типа Vector.';
-   }
-    let plusX = this.x + vector.x;
-    let plusY = this.y + vector.y;
-    return new Vector(plusX, plusY);
-    //return PLUS_OBJ;
+      if(vector instanceof Vector){
+        let plusX = this.x + vector.x;
+        let plusY = this.y + vector.y;
+        return new Vector(plusX, plusY);
+      }
+      throw new Error('Можно прибавлять к вектору только вектор типа Vector.');
     } catch (err){
-      console.log(err.message);
+      console.error(err.message);
     }
   }
   times(multiplier){
