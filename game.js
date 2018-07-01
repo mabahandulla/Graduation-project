@@ -25,11 +25,11 @@ class Vector{
   }
 }
 
-const arr = 'smile';
+//const arr = 'smile';
 const start = new Vector(30, 50);
 const moveTo = new Vector(5, 10);
-//const finish = start.plus(moveTo.times(2));
-const finish = start.plus(arr);
+const finish = start.plus(moveTo.times(2));
+//const finish = start.plus(arr);
 
 console.log(`Исходное расположение: ${start.x}:${start.y}`);
 console.log(`Текущее расположение: ${finish.x}:${finish.y}`);
@@ -50,29 +50,7 @@ class Actor{
          throw new Error(`"${element}" не является объектом типа Vector.`);
        }
      })
-/*
-    let showError = value => {
-      throw new Error(`"${value}" не является объектом типа Vector.`);
-    }
 
-    if(pos && !(pos instanceof Vector)){
-     showError(pos);
-    } else if(pos){
-      this.pos = pos;
-    }
-
-    if(size && !(size instanceof Vector)){
-     showError(size);
-    } else if(size){
-      this.size = size;
-    }
-
-    if(speed && !(speed instanceof Vector)){
-     showError(speed);
-    } else if(speed){
-      this.speed = speed;
-    }
-*/
      Object.defineProperties(this, {
     left: {
       get: function() {
