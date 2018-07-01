@@ -7,8 +7,7 @@ class Vector{
   }
 
   plus(vector){
-   try{
-       
+
     if(!(vector instanceof Vector)){
      throw new Error('Можно прибавлять к вектору только вектор типа Vector.');
     }
@@ -16,11 +15,9 @@ class Vector{
     let plusX = this.x + vector.x;
     let plusY = this.y + vector.y;
     return new Vector(plusX, plusY);
-     
-   } catch (err){
-      console.error('[%s]', err);
-   }
+
   }
+
   times(multiplier){
     let multiplyX = this.x * multiplier;
     let multiplyY = this.y * multiplier;
@@ -28,12 +25,11 @@ class Vector{
   }
 }
 
-//const arr = 'smile';
+const arr = 'smile';
 const start = new Vector(30, 50);
 const moveTo = new Vector(5, 10);
-//const moveTo = new Vector(10);
-const finish = start.plus(moveTo.times(2));
-//const finish = start.plus(arr);
+//const finish = start.plus(moveTo.times(2));
+const finish = start.plus(arr);
 
 console.log(`Исходное расположение: ${start.x}:${start.y}`);
 console.log(`Текущее расположение: ${finish.x}:${finish.y}`);
@@ -43,9 +39,19 @@ console.log(`Текущее расположение: ${finish.x}:${finish.y}`);
 
 
 class Actor{
-  constructor(pos, size, speed){
+  constructor(pos = new Vector(0, 0), size = new Vector(1, 1), speed  = new Vector(0, 0)){
    try{
+     this.pos = pos;
+     this.size = size;
+     this.speed = speed;
+     const key = Object.keys(this);
 
+     key.forEach((element) => {
+       if(!(element instanceof Vector)){
+         throw new Error(`"${element}" не является объектом типа Vector.`);
+       }
+     })
+/*
     let showError = value => {
       throw new Error(`"${value}" не является объектом типа Vector.`);
     }
@@ -67,28 +73,31 @@ class Actor{
     } else if(speed){
       this.speed = speed;
     }
-
+*/
      Object.defineProperties(this, {
     left: {
       get: function() {
-         return generateId();
+         return this.pos.x;
       }
     },
     top: {
       get: function() {
-         return orderArray.reduce(function(sum, current) {
-                return sum + current;
-                }, 0);
+         return this.pos.y;
       }
     },
     right: {
       get: function() {
-         return currentDiscount(this.balance);
+         return this.size.x;
       }
     },
     bottom: {
       get: function() {
-         return currentDiscount(this.balance);
+         return this.size.y;
+      }
+    },
+    type: {
+      get: function() {
+        return 'actor';
       }
     }
 });
@@ -109,7 +118,7 @@ class Actor{
 
 }
 
-const arr = [1, 2, 3];
+//const arr = [1, 2, 3];
 
 const items = new Map();
 const player = new Actor();
@@ -118,3 +127,26 @@ items.set('Игрок', player);
 items.set('Первая монета', new Actor(new Vector(10, 10)));
 //items.set('Вторая монета', new Actor(arr));
 items.set('Вторая монета', new Actor(new Vector(15, 5)));
+
+function position(item) {
+  return ['left', 'top', 'right', 'bottom']
+    .map(side => `${side}: ${item[side]}`)
+    .join(', ');  
+}
+
+function movePlayer(x, y) {
+  player.pos = player.pos.plus(new Vector(x, y));
+}
+
+function status(item, title) {
+  console.log(`${title}: ${position(item)}`);
+  if (player.isIntersect(item)) {
+    console.log(`Игрок подобрал ${title}`);
+  }
+}
+
+items.forEach(status);
+movePlayer(10, 10);
+items.forEach(status);
+movePlayer(5, -5);
+items.forEach(status);
