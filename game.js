@@ -40,7 +40,6 @@ console.log(`Текущее расположение: ${finish.x}:${finish.y}`);
 
 class Actor{
   constructor(pos = new Vector(0, 0), size = new Vector(1, 1), speed  = new Vector(0, 0)){
-   try{
      this.pos = pos;
      this.size = size;
      this.speed = speed;
@@ -102,9 +101,6 @@ class Actor{
     }
 });
 
-   } catch (err){
-      console.error('[%s]', err);
-   }
   }
 
   act(){
