@@ -78,7 +78,6 @@ class Actor{
     }
 });
 
-
   }
 
   act(){
