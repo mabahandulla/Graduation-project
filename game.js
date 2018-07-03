@@ -51,32 +51,32 @@ class Actor{
 
 
      Object.defineProperties(this, {
-    left: {
-      get: function() {
+      left: {
+        get: function() {
          return this.pos.x;
-      }
-    },
-    top: {
-      get: function() {
+        }
+      },
+      top: {
+        get: function() {
          return this.pos.y;
-      }
-    },
-    right: {
-      get: function() {
-         return this.size.x;
-      }
-    },
-    bottom: {
-      get: function() {
-         return this.size.y;
-      }
-    },
-    type: {
-      get: function() {
+        }
+      },
+      right: {
+        get: function() {
+         return this.pos.x + this.size.x;
+        }
+      },
+      bottom: {
+        get: function() {
+         return this.pos.y + this.size.y;
+        }
+      },
+      type: {
+        get: function() {
          return 'actor';
+        }
       }
-    }
-});
+     });
 
   }
 
