@@ -86,11 +86,19 @@ class Actor{
 
 
   isIntersect(actor){
-      if(!actor || !(actor instanceof Actor)){
-        throw new Error(`В метод isIntersect можно передавать только объект типа Actor.`);
-       } 
-       
-       return actor instanceof Actor ? false : true;
+    if(!actor || !(actor instanceof Actor)){
+      throw new Error(`В метод isIntersect можно передавать только объект типа Actor.`);
+     }
+ 
+   if(actor instanceof Actor){
+     return false;
+   }
+ 
+   if(this.pos === actor.pos && this.size === actor.size){
+      return true;
+    }
+ 
+ 
    }
 
 }
