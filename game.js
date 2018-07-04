@@ -25,11 +25,10 @@ class Vector{
   }
 }
 
-//const str = 'smile';
+
 const start = new Vector(30, 50);
 const moveTo = new Vector(5, 10);
 const finish = start.plus(moveTo.times(2));
-//const finish = start.plus(str);
 
 console.log(`Исходное расположение: ${start.x}:${start.y}`);
 console.log(`Текущее расположение: ${finish.x}:${finish.y}`);
@@ -63,12 +62,12 @@ class Actor{
     },
     right: {
       get: function() {
-         return this.size.x;
+       return this.pos.x + this.size.x;
       }
     },
     bottom: {
       get: function() {
-         return this.size.y;
+       return this.pos.y + this.size.y;
       }
     },
     type: {
@@ -86,23 +85,27 @@ class Actor{
 
 
   isIntersect(actor){
-      if(!actor || !(actor instanceof Actor)){
-        throw new Error(`В метод isIntersect можно передавать только объект типа Actor.`);
-       } 
-       
-       return actor instanceof Actor ? false : true;
-   }
+    if(!actor || !(actor instanceof Actor)){
+      throw new Error(`В метод isIntersect можно передавать только объект типа Actor.`);
+    }
+ 
 
+    if((this.pos.valueOf() === actor.pos.valueOf() && this.size.valueOf() === actor.size.valueOf()) || (this.pos.valueOf() < actor.pos.valueOf()) || (this.pos.valueOf() === actor.pos.valueOf() && actor.size.valueOf() === -1)) {
+      return false;
+     }
+
+
+     return true;
+   
+  }
 }
 
-//const arr = [1, 2, 3];
 
 const items = new Map();
 const player = new Actor();
 items.set('Игрок', player);
 
 items.set('Первая монета', new Actor(new Vector(10, 10)));
-//items.set('Вторая монета', new Actor(arr));
 items.set('Вторая монета', new Actor(new Vector(15, 5)));
 
 function position(item) {
