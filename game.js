@@ -50,32 +50,22 @@ class Actor{
 
 
      Object.defineProperties(this, {
-    left: {
-      get: function() {
-         return this.pos.x;
+      left: {
+        get: () => this.pos.x 
+      },
+      top: {
+        get: () => this.pos.y
+      },
+      right: {
+        get: () => this.pos.x + this.size.x
+      },
+      bottom: {
+        get: () => this.pos.y + this.size.y
+      },
+      type: {
+        get: () => 'actor'
       }
-    },
-    top: {
-      get: function() {
-         return this.pos.y;
-      }
-    },
-    right: {
-      get: function() {
-       return this.pos.x + this.size.x;
-      }
-    },
-    bottom: {
-      get: function() {
-       return this.pos.y + this.size.y;
-      }
-    },
-    type: {
-      get: function() {
-         return 'actor';
-      }
-    }
-});
+     });
 
   }
 
