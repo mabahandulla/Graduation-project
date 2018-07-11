@@ -79,7 +79,7 @@ class Actor {
       throw new Error(`В метод isIntersect можно передавать только объект типа Actor.`);
     }
 
-    //Объект не пересекается сам с собой - OK
+    //Объект не пересекается сам с собой - FALSE
     if (this === actor) {
       return false;
     }
@@ -94,6 +94,7 @@ class Actor {
       return false;
     }
 
+    //Объект не пересекается с объектом со смежными границами - FALSE
     if (
       ((this.left === actor.right) && (this.top <= actor.bottom) && (this.bottom >= actor.top)) || ((this.bottom === actor.top) && (this.left <= actor.right) && (this.right >= actor.left)) || ((this.top === actor.bottom) && (this.left <= actor.right) && (this.right >= actor.left)) || ((this.right === actor.left) && (this.top <= actor.bottom) && (this.bottom >= actor.top))
     ) {
