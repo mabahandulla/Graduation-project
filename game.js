@@ -25,7 +25,7 @@ class Vector {
   }
 }
 
-
+/*
 const start = new Vector(30, 50);
 const moveTo = new Vector(5, 10);
 const finish = start.plus(moveTo.times(2));
@@ -33,7 +33,7 @@ const finish = start.plus(moveTo.times(2));
 console.log(`Исходное расположение: ${start.x}:${start.y}`);
 console.log(`Текущее расположение: ${finish.x}:${finish.y}`);
 console.log('');
-
+*/
 
 
 
@@ -121,7 +121,7 @@ class Actor {
   }
 }
 
-
+/*
 const items = new Map();
 const player = new Actor();
 items.set('Игрок', player);
@@ -151,3 +151,126 @@ movePlayer(10, 10);
 items.forEach(status);
 movePlayer(5, -5);
 items.forEach(status);
+*/
+
+
+class Level {
+  constructor(grid, actors) {
+    if (grid) {
+      this.grid = grid;
+    }
+    if (actors) {
+      this.actors = actors;
+    }
+
+    Object.defineProperties(this, {
+      player: {
+        get: () => {
+          function NewPlayer() {
+            this.type = 'player';
+          }
+          NewPlayer.prototype = Object.create(Actor);
+          NewPlayer.constructor = NewPlayer;
+          const playerType = new NewPlayer();
+          return playerType.type;
+        }
+      },
+      height: {
+        get: () => {
+          return this.grid ? this.grid.length : 0;
+        }
+      },
+      width: {
+        get: () => {
+          let cellLength = 0, currentCell = 0;
+
+          if (this.grid) {
+            this.grid.forEach((item, i) => {
+              if (typeof item[i] !== 'undefined' && item[i] !== null) {
+                currentCell = Object.keys(item).length;
+                if (currentCell > cellLength) {
+                  cellLength = currentCell;
+                }
+              } else {
+                cellLength = item.length;
+              }
+            });
+          }
+
+          return cellLength;
+        }
+      }
+    });
+
+    this.status = null;
+    this.finishDelay = 1;
+  }
+
+  isFinished() {
+    if (this.status !== null && this.finishDelay < 0) {
+      return true;
+    }
+  }
+  actorAt(actor) {
+    if (!actor || !(actor instanceof Actor)) {
+      throw new Error(`В метод actorAt можно передавать только объект типа Actor.`);
+    }
+
+  }
+
+  obstacleAt(pos, size) {
+    if (!(pos instanceof Vector) || !(size instanceof Vector)) {
+      throw new Error(`В метод obstacleAt можно передавать только объект типа Vector.`);
+    }
+  }
+  removeActor(actor) {
+
+  }
+  noMoreActors(actorType) {
+
+  }
+  playerTouched(actorType, actor) {
+    if (this.status !== null) {
+
+    }
+  }
+}
+
+/*
+const grid = [
+  [undefined, undefined],
+  ['wall', 'wall']
+];
+
+function MyCoin(title) {
+  this.type = 'coin';
+  this.title = title;
+}
+MyCoin.prototype = Object.create(Actor);
+MyCoin.constructor = MyCoin;
+
+const goldCoin = new MyCoin('Золото');
+const bronzeCoin = new MyCoin('Бронза');
+const player = new Actor();
+const fireball = new Actor();
+
+const level = new Level(grid, [goldCoin, bronzeCoin, player, fireball]);
+
+level.playerTouched('coin', goldCoin);
+level.playerTouched('coin', bronzeCoin);
+
+if (level.noMoreActors('coin')) {
+  console.log('Все монеты собраны');
+  console.log(`Статус игры: ${level.status}`);
+}
+
+const obstacle = level.obstacleAt(new Vector(1, 1), player.size);
+if (obstacle) {
+  console.log(`На пути препятствие: ${obstacle}`);
+}
+
+const otherActor = level.actorAt(player);
+if (otherActor === fireball) {
+  console.log('Пользователь столкнулся с шаровой молнией');
+}
+*/
