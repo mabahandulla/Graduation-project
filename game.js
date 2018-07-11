@@ -96,7 +96,10 @@ class Actor {
 
     //Объект не пересекается с объектом со смежными границами - FALSE
     if (
-      ((this.left === actor.right) && (this.top <= actor.bottom) && (this.bottom >= actor.top)) || ((this.bottom === actor.top) && (this.left <= actor.right) && (this.right >= actor.left)) || ((this.top === actor.bottom) && (this.left <= actor.right) && (this.right >= actor.left)) || ((this.right === actor.left) && (this.top <= actor.bottom) && (this.bottom >= actor.top))
+      ((this.left === actor.right) && (this.top <= actor.bottom) && (this.bottom >= actor.top)) ||
+      ((this.bottom === actor.top) && (this.left <= actor.right) && (this.right >= actor.left)) ||
+      ((this.top === actor.bottom) && (this.left <= actor.right) && (this.right >= actor.left)) ||
+      ((this.right === actor.left) && (this.top <= actor.bottom) && (this.bottom >= actor.top))
     ) {
       return false;
     }
