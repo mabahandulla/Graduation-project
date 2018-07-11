@@ -1,24 +1,24 @@
 'use strict'
 
-class Vector{
-  constructor(x = 0, y = 0){
+class Vector {
+  constructor(x = 0, y = 0) {
     this.x = x;
     this.y = y;
   }
 
-  plus(vector){
-       
-    if(!(vector instanceof Vector)){
-     throw new Error(`Можно прибавлять к вектору только вектор типа Vector.`);
+  plus(vector) {
+
+    if (!(vector instanceof Vector)) {
+      throw new Error(`Можно прибавлять к вектору только вектор типа Vector.`);
     }
-    
+
     let plusX = this.x + vector.x;
     let plusY = this.y + vector.y;
     return new Vector(plusX, plusY);
 
   }
 
-  times(multiplier){
+  times(multiplier) {
     let multiplyX = this.x * multiplier;
     let multiplyY = this.y * multiplier;
     return new Vector(multiplyX, multiplyY);
@@ -37,21 +37,21 @@ console.log('');
 
 
 
-class Actor{
-  constructor(pos = new Vector(0, 0), size = new Vector(1, 1), speed  = new Vector(0, 0)){
+class Actor {
+  constructor(pos = new Vector(0, 0), size = new Vector(1, 1), speed = new Vector(0, 0)) {
 
-     if(!(pos instanceof Vector) || !(size instanceof Vector) || !(speed instanceof Vector)){
-         throw new Error(`В конструктор можно передавать только объект типа Vector.`);
-     }
+    if (!(pos instanceof Vector) || !(size instanceof Vector) || !(speed instanceof Vector)) {
+      throw new Error(`В конструктор можно передавать только объект типа Vector.`);
+    }
 
-     this.pos = pos;
-     this.size = size;
-     this.speed = speed;
+    this.pos = pos;
+    this.size = size;
+    this.speed = speed;
 
 
-     Object.defineProperties(this, {
+    Object.defineProperties(this, {
       left: {
-        get: () => this.pos.x 
+        get: () => this.pos.x
       },
       top: {
         get: () => this.pos.y
@@ -65,28 +65,55 @@ class Actor{
       type: {
         get: () => 'actor'
       }
-     });
+    });
 
   }
 
-  act(){
+  act() {
 
   }
 
 
-  isIntersect(actor){
-    if(!actor || !(actor instanceof Actor)){
+  isIntersect(actor) {
+    if (!actor || !(actor instanceof Actor)) {
       throw new Error(`В метод isIntersect можно передавать только объект типа Actor.`);
     }
- 
 
-    if((this.pos.valueOf() === actor.pos.valueOf() && this.size.valueOf() === actor.size.valueOf()) || (this.pos.valueOf() < actor.pos.valueOf()) || (this.pos.valueOf() === actor.pos.valueOf() && actor.size.valueOf() === -1)) {
+    //Объект не пересекается сам с собой - OK
+    if (this === actor) {
       return false;
-     }
+    }
 
+    //Объект не пересекается с объектом расположенным в той же точке, но имеющим отрицательный вектор размера - FALSE
+    if ((this.left === actor.left && this.top === actor.top) && (actor.right < 0 && actor.bottom < 0)) {
+      return false;
+    }
 
-     return true;
-   
+    //Объект не пересекается с объектом расположенным очень далеко - FALSE
+    if (this.right <= actor.left && this.bottom <= actor.top) {
+      return false;
+    }
+
+    if (
+      ((this.left === actor.right) && (this.top <= actor.bottom) && (this.bottom >= actor.top)) || ((this.bottom === actor.top) && (this.left <= actor.right) && (this.right >= actor.left)) || ((this.top === actor.bottom) && (this.left <= actor.right) && (this.right >= actor.left)) || ((this.right === actor.left) && (this.top <= actor.bottom) && (this.bottom >= actor.top))
+    ) {
+      return false;
+    }
+    //Объект пересекается с объектом, который частично содержится в нём - TRUE
+    if (
+      (((this.left >= actor.left && this.left < actor.right) || (this.right > actor.left && this.right >= actor.right)) &&
+        ((this.top >= actor.top && this.top < actor.bottom) || (this.bottom > actor.top && this.bottom >= actor.bottom))) ||
+      (((this.left <= actor.left && this.left < actor.right) || (this.right > actor.left && this.right <= actor.right)) &&
+        ((this.top <= actor.top && this.top > actor.bottom) || (this.bottom > actor.top && this.bottom <= actor.bottom)))
+    ) {
+      return true;
+    }
+
+    //Объект пересекается с объектом, который полностью содержится в нём - TRUE
+    if (((actor.left >= this.left && actor.left <= this.right) || (actor.right >= this.left && actor.right <= this.right)) && ((actor.top >= this.top && actor.top <= this.bottom) || (actor.bottom >= this.top && actor.bottom <= this.bottom))) {
+      return true;
+    }
+
   }
 }
 
@@ -101,7 +128,7 @@ items.set('Вторая монета', new Actor(new Vector(15, 5)));
 function position(item) {
   return ['left', 'top', 'right', 'bottom']
     .map(side => `${side}: ${item[side]}`)
-    .join(', ');  
+    .join(', ');
 }
 
 function movePlayer(x, y) {
