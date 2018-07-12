@@ -207,10 +207,9 @@ class Level {
   }
 
   isFinished() {
-    if (this.status !== null && this.finishDelay < 0) {
-      return true;
-    }
+    return this.status !== null && this.finishDelay < 0 ? true : false;
   }
+
   actorAt(actor) {
     if (!actor || !(actor instanceof Actor)) {
       throw new Error(`В метод actorAt можно передавать только объект типа Actor.`);
