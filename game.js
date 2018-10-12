@@ -24,8 +24,6 @@ class Vector {
 }
 
 
-
-
 class Actor {
   constructor(pos = new Vector(0, 0), size = new Vector(1, 1), speed = new Vector(0, 0)) {
 
@@ -38,10 +36,10 @@ class Actor {
     this.speed = speed;
     this._type = 'actor';
   }
+
   act() {
 
   }
-
 
   get left() {
     return this.pos.x;
@@ -63,8 +61,6 @@ class Actor {
     return this._type;
   }
 
-
-
   isIntersect(actor) {
     if (!(actor instanceof Actor) || actor === undefined) {
       throw Error('Incorrect argument');
@@ -77,8 +73,6 @@ class Actor {
     return !(actor.left >= this.right || actor.right <= this.left || actor.top >= this.bottom || actor.bottom <= this.top);
   }
 }
-
-
 
 
 class Level {
@@ -176,6 +170,7 @@ class Level {
 
 
 
+
 class LevelParser {
   constructor(dictionary) {
     this.dictionary = dictionary;
@@ -187,13 +182,13 @@ class LevelParser {
   }
 
   obstacleFromSymbol(symbol) {
-    if (symbol === 'x') {
+    if (symbol === 'x'){
       return 'wall'
     };
-    if (symbol === '!') {
+    if (symbol === '!'){
       return 'lava';
     }
-    if (symbol !== 'x' || symbol !== '!') {
+    if (symbol !== 'x' || symbol !== '!'){
       return undefined;
     }
   }
