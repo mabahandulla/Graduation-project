@@ -176,7 +176,6 @@ class Level {
 
 
 
-
 class LevelParser {
   constructor(dictionary) {
     this.dictionary = dictionary;
