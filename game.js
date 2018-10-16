@@ -209,7 +209,8 @@ class LevelParser {
     strArray.forEach((row, y) => {
       row.forEach((cell, x) => {
         if (this.dictionary && this.dictionary[cell] && typeof this.dictionary[cell] === 'function') {
-          const actor = new this.dictionary[cell](new Vector(x, y));
+          const actorPosition = new Vector(x, y);
+          const actor = new this.dictionary[cell](actorPosition);
           if (actor instanceof Actor) {
             actors.push(actor);
           }
